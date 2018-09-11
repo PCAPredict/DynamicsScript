@@ -1,12 +1,12 @@
 # Current steps to get started.
 
-Step 1
+###Step 1
 
 Dynamics 365 CRM>Settings>Customization>Customize the System
 
 ![alt text](images/screenshot1.png)
  
-Step 2
+###Step 2
 
 Components>Web Resources
 
@@ -16,7 +16,7 @@ Add the New web resource. Add Dynamics Tag script, save and publish.
 
 ![alt text](images/screenshot3.png)
  
-Step 3
+###Step 3
 
 Go back to Sales>Contacts
 Create a new Contact form. Then click “Form” at the top, followed by “Form properties”.
@@ -34,7 +34,7 @@ After which in the event handlers click add and choose the pca library and in th
 Then in the parameters specify the account code and click OK
 Make sure Control is “Form” and Event is “OnLoad” and confirm by clicking ok
 
-Step 4
+###Step 4
 
 In the form layout set up your forms to your specification and for each element confirm the id by double-clicking on it and going to “Details” tab and the “Name” will contain the field id you’ll need to use when it comes mapping the service key in your Loqate account dashboard.
 
