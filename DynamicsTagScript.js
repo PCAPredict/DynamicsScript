@@ -1,4 +1,6 @@
 function startPCA(accountCode){
+    
+window.parent.pca = null;
 
 (function(n,t,i,r){var u,f;n[i]=n[i]||{},n[i].initial={accountCode:accountCode,host:accountCode + ".pcapredict.com"},n[i].on=n[i].on||function(){(n[i].onq=n[i].onq||[]).push(arguments)},u=t.createElement("script"),u.async=!0,u.src=r,f=t.getElementsByTagName("script")[0],f.parentNode.insertBefore(u,f)})(window.parent,window.parent.document,"pca","//" + accountCode + ".pcapredict.com/js/sensor.js");
 
