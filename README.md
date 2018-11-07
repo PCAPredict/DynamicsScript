@@ -1,3 +1,7 @@
+# Notes
+
+Although this integration has been created, the purpose of it is not intended to be an official release. It is a helping hand and suggestion to getting the tag script into a dynamics instance via the system's event mechanisms. There are issues known with this and currently this is not in active development.
+
 # Current steps to get started.
 
 ### Step 1
