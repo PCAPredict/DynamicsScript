@@ -2,7 +2,7 @@
 
 This integration can be used with the event handlers that you can set in the form editor. The script uses the standard tag setup script that Loqate provides, with extensions put in place to best accommodate the Dynamics 365 system. This is intended for dynamics V9.
 
-This integration requires that you create a custom attribute on the forms that is used to do the search. This field should be named the same for each form entity type and there should be one for each address.
+This integration requires that you create a custom attribute on the forms that you are wanting to use the control on. This attribute will be used to do the search. This field should be named the same for each form entity type and there should be one for each address.
 
 # Current steps to get started.
 
