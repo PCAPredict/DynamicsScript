@@ -116,6 +116,17 @@ function startPCA(executionContext, accountCode) {
                 var element = window.parent.pca.dynamicsElement(field.element);
 
                 field.element = element ? element : field.element;
+
+                /* Modes are set as enum 1,2,4,8 and search is 1 */
+                var isSearchField = field.mode % 2;
+
+                if (field.originalId.indexOf("country") > -1 || isSearchField) {
+
+                    /* Stop any events that tell the system the country has changed - we will do that */
+                    window.parent.pca.listen(field.element, "blur", window.parent.pca.smash, true);
+                    window.parent.pca.listen(field.element, "change", window.parent.pca.smash, true);
+                    window.parent.pca.listen(field.element, "input", window.parent.pca.smash, true);
+                } 
             }
         }
     });
@@ -182,13 +193,8 @@ function startPCA(executionContext, accountCode) {
 
         console.log('pca load');
 
-        control.listen("populate", function(address, variations) {
-            clearAddressSearchField();
-            /* Composite field in the non-unified view needs to update the label. */
-            formContext.data.entity.save();
-        });
-
         /* We do this so that when someone is using the keyboard to drill-down into results, we keep focus on the capture control. */
+        /* This captures the enter key from the parent if the autocomplete windows is open */
         window.parent.pca.listen(window.parent.document, "keydown", function (event) {
             var keyNum = window.event ? window.event.keyCode : event.which;
 
@@ -196,33 +202,9 @@ function startPCA(executionContext, accountCode) {
                 window.parent.pca.smash(event);
             }
         }, true);
-
-        window.parent.pca.listen(control.autocomplete.element, "click", window.parent.pca.smash);
         
         window.parent.pca.listen(control.autocomplete.element, "mousedown", window.parent.pca.smash);
 
         window.parent.pca.listen(control.countrylist.autocomplete.element, "mousedown", window.parent.pca.smash);
     });
-}
-
-function clearAddressSearchField() {
-
-    if (window.parent.pca && window.parent.pca.capturePlus && window.parent.pca.capturePlus.controls) {
-
-        for (var c = 0; c < window.parent.pca.capturePlus.controls.length; c++) {
-
-            var fields = window.parent.pca.capturePlus.controls[c].fields;
-
-            for (var f = 0; f < fields.length; f++) {
-
-                var field = fields[f];
-
-                if (field && field.mode == 1) { 
-                    field.attribute.setValue("");
-                    field.element.value = "";
-                    field.element.blur();
-                }
-            }
-        }
-    }
 }
