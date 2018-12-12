@@ -35,7 +35,7 @@ After which in the event handlers click add and choose the pca library and in th
 
 ![alt text](images/screenshot6.png)
  
-Then in the parameters specify the account code and click OK
+Then in the parameters specify the account code and click OK. Make sure to tick the "pass execution context as first parameter" as well.
 Make sure Control is “Form” and Event is “OnLoad” and confirm by clicking ok
 
 ### Step 4
