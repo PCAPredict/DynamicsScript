@@ -2,19 +2,55 @@ function startPCA(executionContext, accountCode) {
 
     var formContext = executionContext.getFormContext();
 
-    /* Clear out any events prior for continual field search.*/
-    if (window.parent.pca && window.parent.pca.platform && window.parent.pca.platform.continualFieldSearches) {
-        var keys = Object.keys(window.parent.pca.platform.continualFieldSearches);
-        for (var k = 0; k < keys; k++) {
-            var key = keys[k];
-            if (window.parent.pca.platform.continualFieldSearches.hasOwnProperty(key)) {
-                clearInterval(window.parent.pca.platform.continualFieldSearches[key]);
+    clearIntervals = function() {
+
+        /* Clear out any events prior for continual field search.*/
+        if (window.parent.pca && window.parent.pca.platform && window.parent.pca.platform.continualFieldSearches) {
+
+            var continualKeys = Object.keys(window.parent.pca.platform.continualFieldSearches);
+
+            for (var k = 0; k < continualKeys; k++) {
+
+                var key = continualKeys[k];
+
+                if (window.parent.pca.platform.continualFieldSearches.hasOwnProperty(key)) {
+                    clearInterval(window.parent.pca.platform.continualFieldSearches[key]);
+                    delete window.parent.pca.platform.continualFieldSearches[key];
+                }
+            }
+
+            var elementStateKeys = Object.keys(window.parent.pca.platform.elementStateMonitors);
+
+            for (var k = 0; k < elementStateKeys; k++) {
+
+                var key = elementStateKeys[k];
+
+                if (window.parent.pca.platform.elementStateMonitors.hasOwnProperty(key)) {
+                    clearInterval(window.parent.pca.platform.elementStateMonitors[key]);
+                    delete window.parent.pca.platform.elementStateMonitors[key];
+                }
             }
         }
     }
+    clearIntervals();
 
     /* Null out the pca context, it was created in a different parent context and we get "script freed" error.*/
     window.parent.pca = null;
+
+    /* Our tag setup. */
+    window.parent["pca"] = window.parent["pca"] || {};
+    window.parent["pca"].initial = {
+        accountCode: accountCode,
+        host: accountCode + ".pcapredict.com"
+    };
+    window.parent["pca"].on = window.parent["pca"].on || function () {
+        (window.parent["pca"].onq = window.parent["pca"].onq || []).push(arguments)
+    };
+    var u = window.parent.document.createElement("script");
+    u.async = !0;
+    u.src = "//" + accountCode + ".pcapredict.com/js/sensor.js";
+    var f = window.parent.document.getElementsByTagName("script")[0];
+    f.parentNode.insertBefore(u, f);
 
     var overideSetValue = setInterval(function () {
 
@@ -58,24 +94,6 @@ function startPCA(executionContext, accountCode) {
         }
     }, 100);
 
-    /* Our tag setup. */
-    (function (n, t, i, r) {
-        var u, f;
-        n[i] = n[i] || {},
-            n[i].initial = {
-                accountCode: accountCode,
-                host: accountCode + ".pcapredict.com"
-            },
-            n[i].on = n[i].on || function () {
-                (n[i].onq = n[i].onq || []).push(arguments)
-            },
-            u = t.createElement("script"),
-            u.async = !0,
-            u.src = r,
-            f = t.getElementsByTagName("script")[0],
-            f.parentNode.insertBefore(u, f)
-    })(window.parent, window.parent.document, "pca", "//" + accountCode + ".pcapredict.com/js/sensor.js");
-
     /* Find the element in the DOM */
     window.parent.pca.dynamicsElement = function (field) {
         var queries = [
@@ -99,7 +117,7 @@ function startPCA(executionContext, accountCode) {
         }
         return null;
     }
-    
+
     /* This is where we bridge the element name we have with the actual element in the DOM and the Xrm attribute. */
     window.parent.pca.on("fields", function (type, id, fields) {
 
@@ -117,16 +135,15 @@ function startPCA(executionContext, accountCode) {
 
                 field.element = element ? element : field.element;
 
-                /* Modes are set as enum 1,2,4,8 and search is 1 */
+                /* Modes are set as flags on an enum 1,2,4,8 and search is 1 */
                 var isSearchField = field.mode % 2;
 
+                /* TODO - Is it possible to check using the enum flags instead of id */
                 if (field.originalId.indexOf("country") > -1 || isSearchField) {
 
-                    /* Stop any events that tell the system the country has changed - we will do that */
-                    window.parent.pca.listen(field.element, "blur", window.parent.pca.smash, true);
-                    window.parent.pca.listen(field.element, "change", window.parent.pca.smash, true);
+                    /* Stoping the input event lets us populate the value in set value. Without this we would need to have another search field. */
                     window.parent.pca.listen(field.element, "input", window.parent.pca.smash, true);
-                } 
+                }
             }
         }
     });
@@ -202,7 +219,7 @@ function startPCA(executionContext, accountCode) {
                 window.parent.pca.smash(event);
             }
         }, true);
-        
+
         window.parent.pca.listen(control.autocomplete.element, "mousedown", window.parent.pca.smash);
 
         window.parent.pca.listen(control.countrylist.autocomplete.element, "mousedown", window.parent.pca.smash);
