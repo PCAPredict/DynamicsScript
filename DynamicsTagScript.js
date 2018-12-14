@@ -139,7 +139,8 @@ function startPCA(executionContext, accountCode) {
                 var isSearchField = field.mode % 2;
 
                 /* TODO - Is it possible to check using the enum flags instead of id */
-                if (field.originalId.indexOf("country") > -1 || isSearchField) {
+                /* Let's just restrict this to capture+ service. For email and phone we are not updating anything. */
+                if (type == "capture+" && field.originalId.indexOf("country") > -1 || isSearchField) {
 
                     /* Stoping the input event lets us populate the value in set value. Without this we would need to have another search field. */
                     window.parent.pca.listen(field.element, "input", window.parent.pca.smash, true);
