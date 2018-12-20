@@ -2,6 +2,8 @@
 
 This integration can be used with the event handlers that you can set in the form editor. The script uses the standard tag setup script that Loqate provides, with extensions put in place to best accommodate the Dynamics 365 system. This is intended for dynamics V9.
 
+IMPORTANT NOTE : The type of key required to set the mappings is not currently available through the account section. To resolve this issue you need to get in touch with the Loqate support team where will create a tag service key for you with default mappings set up.
+
 # Current steps to get started.
 
 ### Step 1
@@ -37,12 +39,4 @@ After which in the event handlers click add and choose the pca library and in th
  
 Then in the parameters specify the account code and click OK. Make sure to tick the "pass execution context as first parameter" as well.
 Make sure Control is “Form” and Event is “OnLoad” and confirm by clicking ok
-
-### Step 4
-
-In the form layout set up your forms to your specification and for each element confirm the id by double-clicking on it and going to “Details” tab and the “Name” will contain the field id you’ll need to use when it comes mapping the service key in your Loqate account dashboard.
-
-![alt text](images/screenshot7.png)
- 
-IMPORTANT NOTE: Currently it is not possible for users to create a Tag based service key without going through the on-page setup, which does not work on Dynamics. To resolve this issue you need to get in touch with Loqate support team we will create a tag service key for you to map.
 
