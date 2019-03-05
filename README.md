@@ -1,3 +1,7 @@
+# NOTICE
+
+This project is no longer in active development. Please see this project (https://github.com/PCAPredict/Dynamics365) that relates to the latest way of integrating into Dynamics with Unified Interface. It is based on our previous version which was developed for Dynamics 2013-2015 (See here : https://www.loqate.com/resources/support/setup-guides/loqate-for-dynamics-crm/).
+
 # Notes
 
 This integration can be used with the event handlers that you can set in the form editor. The script uses the standard tag setup script that Loqate provides, with extensions put in place to best accommodate the Dynamics 365 system. This is intended for dynamics V9.
